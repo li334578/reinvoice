@@ -1,5 +1,6 @@
-说明
-该项目基于chineseocr https://github.com/chineseocr/chineseocr
+# 说明
+
+该项目基于chineseocr[ https://github.com/chineseocr/chineseocr](https://github.com/guanshuicheng/invoice)
 
 # 发票 OCR 项目
 
