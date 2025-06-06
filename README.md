@@ -1,3 +1,6 @@
+说明
+该项目基于chineseocr https://github.com/chineseocr/chineseocr
+
 # 发票 OCR 项目
 
 该项目是一个基于 Python 和 Flask 的发票 OCR（光学字符识别）系统，支持使用 OpenCV 和 Keras 进行文本检测，并使用 PyTorch 进行模型推理。
@@ -14,7 +17,7 @@
 
 1. 克隆仓库：
    ```bash
-   git clone https://github.com/Ghosts-Tom/invoice.git
+   git clone https://github.com/Ghosts-Tom/reinvoice.git
    cd invoice
    ```
 
