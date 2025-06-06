@@ -1,38 +1,83 @@
-# 说明
-- 该项目基于chineseocr https://github.com/chineseocr/chineseocr
-- 商业版本（多模态）合作请联系微信：w1003617636
-- 支持其他的卡证及票据类的高精度识别
-- 支持行业内的数据相关合作，欢迎联系
+# 发票 OCR 项目
 
-# 增值税发票识别 
-  增值税发票OCR识别，使用flask微服务架构，识别type：增值税电子普通发票，增值税普通发票，增值税专用发票；识别字段为：发票代码、发票号码、开票日期、校验码、税后金额等。
-  
-  识别type：增值税电子普通发票，增值税普通发票，增值税专用发票；识别字段为：发票代码、发票号码、开票日期、校验码、税后金额等
-## 环境
-   1. python3.5/3.6
-   2. 依赖项安装：pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple 
-   3. 有GPU环境的可修改安装requirements.txt对应版本的tensorflow-gpu，config.py文件中控制GPU的开关
-## 模型架构
-    YOLOv3 + CRNN + CTC
-   
-## 模型
-   1. 模型下载地址：链接：https://pan.baidu.com/s/1bjtd3ueiUj3rt16p2_YQ2w
-   2. 将下载完毕的模型文件夹models放置于项目根目录下
-## 服务启动
-   1. python3 app.py
-   2. 端口可自行修改
-   3. 服务调用地址：http://*.*.*.*: [端口号]/invoice-ocr，例：http://127.0.0.1:11111/invoice-ocr
-## 测试demo
-   1. 测试工具：postman，可自行下载安装
-   2. 增值税电子普票测试结果
-   
-![Image text](https://github.com/guanshuicheng/invoice/blob/master/test-invoice/%E7%94%B5%E5%AD%90%E5%8F%91%E7%A5%A8-test.png)
-   
-   3. 增值税专用普票测试结果
-   
-![Image text](https://github.com/guanshuicheng/invoice/blob/master/test-invoice/%E5%A2%9E%E5%80%BC%E7%A8%8E%E4%B8%93%E7%94%A8%E5%8F%91%E7%A5%A8-test.png)
+该项目是一个基于 Python 和 Flask 的发票 OCR（光学字符识别）系统，支持使用 OpenCV 和 Keras 进行文本检测，并使用 PyTorch 进行模型推理。
 
-   4. 增值税普通普票测试结果
+## 环境要求
 
-![Image text](https://github.com/guanshuicheng/invoice/blob/master/test-invoice/%E5%A2%9E%E5%80%BC%E7%A8%8E%E6%99%AE%E9%80%9A%E5%8F%91%E7%A5%A8-test.jpg)
-   
+- Python 3.9
+- Flask
+- OpenCV
+- PyTorch
+- 其他依赖项请参考 `requirements.txt`
+
+## 安装步骤
+
+1. 克隆仓库：
+   ```bash
+   git clone https://github.com/Ghosts-Tom/invoice.git
+   cd invoice
+   ```
+
+2. 安装所需依赖：
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+## 运行应用
+
+使用以下命令运行应用：
+```bash
+py -3.9 app.py
+```
+
+服务器将在 `http://127.0.0.1:11111` 上启动。
+
+## API 测试
+
+### 使用 Postman 测试 API
+
+如果你不熟悉 Postman，请按照以下步骤进行测试：
+
+1. **下载并安装 Postman**：
+   - 访问 [Postman 官网](https://www.postman.com/downloads/) 下载并安装 Postman。
+
+2. **打开 Postman**：
+   - 安装完成后，打开 Postman 应用程序。
+
+3. **创建新请求**：
+   - 点击左上角的"New"按钮，选择"Request"。
+   - 在请求名称中输入"Invoice OCR Test"，然后点击"Save"。
+
+4. **设置请求方法**：
+   - 在请求 URL 输入框中，输入 `http://127.0.0.1:11111/invoice-ocr`。
+   - 确保请求方法设置为 `POST`。
+
+5. **设置请求体**：
+   - 在请求体部分，选择 `form-data`。
+   - 添加一个键值对，键名为 `file`，值类型选择 `File`。
+   - 点击"Select Files"按钮，选择你要上传的发票图片文件。
+
+6. **发送请求**：
+   - 点击"Send"按钮，Postman 将发送请求到你的 Flask 服务。
+   - 如果一切正常，你将收到一个 JSON 响应，包含 OCR 识别结果。
+
+7. **查看响应**：
+   - 在 Postman 的响应部分，你可以看到返回的 JSON 数据，包含识别结果。
+
+## 项目结构
+
+- `app.py`: 主应用程序文件。
+- `model_postE_invoice.py`: 电子发票模型处理文件。
+- `model_postM_invoice.py`: 纸质发票模型处理文件。
+- `model_post_type.py`: 发票类型模型处理文件。
+- `config.py`: 配置文件。
+- `requirements.txt`: 项目依赖项列表。
+- `README.md`: 项目说明文件。
+- `LICENSE`: 许可证文件。
+
+## 许可证
+
+该项目采用 MIT 许可证 - 详情请参阅 LICENSE 文件。
+
+
+

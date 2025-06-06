@@ -3,7 +3,6 @@ from config import opencvFlag, GPU, IMGSIZE, ocrFlag
 
 if not GPU:
     import os
-
     os.environ["CUDA_VISIBLE_DEVICES"] = ''  ##不启用GPU
 
 if ocrFlag == 'torch':
@@ -16,6 +15,16 @@ import cv2
 import numpy as np
 from PIL import Image
 from glob import glob
+# import tensorflow as tf
+
+# 设置GPU内存使用
+# gpus = tf.config.experimental.list_physical_devices('GPU')
+# if gpus:
+#     try:
+#         for gpu in gpus:
+#             tf.config.experimental.set_memory_growth(gpu, True)
+#     except RuntimeError as e:
+#         print(e)
 
 from text.detector.detectors import TextDetector
 from apphelper.image import get_boxes, letterbox_image
@@ -134,33 +143,22 @@ import os
 import torch
 from apphelper.image import xy_rotate_box, box_rotate, solve
 import cv2
-import tensorflow as tf
+
 os.environ["CUDA_VISIBLE_DEVICES"] = '0'   #指定第一块GPU可用
-config = tf.ConfigProto()
-config.gpu_options.per_process_gpu_memory_fraction = 0.3  # 程序最多只能占用指定gpu30%的显存
-sess = tf.Session(config = config)
 
 def ocr(img):
     h, w = img.shape[:2]
     _, result, angle = model(img,
-                                   detectAngle=True,  ##是否进行文字方向检测
-                                   config=dict(MAX_HORIZONTAL_GAP=50,  ##字符之间的最大间隔，用于文本行的合并
-                                               MIN_V_OVERLAPS=0.6,
-                                               MIN_SIZE_SIM=0.6,
-                                               TEXT_PROPOSALS_MIN_SCORE=0.1,
-                                               TEXT_PROPOSALS_NMS_THRESH=0.3,
-                                               TEXT_LINE_NMS_THRESH=0.7,  ##文本行之间测iou值
-
-                                               ),
-                                   leftAdjust=True,  ##对检测的文本行进行向左延伸
-                                   rightAdjust=True,  ##对检测的文本行进行向右延伸
-                                   alph=0.1,  ##对检测的文本行进行向右、左延伸的倍数
-
-                                   )
-
-
-#     res5 = []
-#     for line in result:
-#         res5.append(line['text'])
-#     return {"text": {str(k): v for k, v in enumerate(res5)}}
+                           detectAngle=True,  ##是否进行文字方向检测
+                           config=dict(MAX_HORIZONTAL_GAP=50,  ##字符之间的最大间隔，用于文本行的合并
+                                     MIN_V_OVERLAPS=0.6,
+                                     MIN_SIZE_SIM=0.6,
+                                     TEXT_PROPOSALS_MIN_SCORE=0.1,
+                                     TEXT_PROPOSALS_NMS_THRESH=0.3,
+                                     TEXT_LINE_NMS_THRESH=0.7,  ##文本行之间测iou值
+                                     ),
+                           leftAdjust=True,  ##对检测的文本行进行向左延伸
+                           rightAdjust=True,  ##对检测的文本行进行向右延伸
+                           alph=0.1,  ##对检测的文本行进行向右、左延伸的倍数
+                           )
     return result

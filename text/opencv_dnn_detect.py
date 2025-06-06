@@ -5,24 +5,22 @@ from PIL import Image
 import numpy as np
 import cv2
 
-if opencvFlag=='keras':
-    ##转换为tf模型，以便GPU调用
-    import tensorflow as tf
-    from tensorflow.python.platform import gfile
-    config = tf.ConfigProto(allow_soft_placement=True)
-    sess = tf.Session(config=config)
-    with gfile.FastGFile(AngleModelPb, 'rb') as f:
-            graph_def = tf.GraphDef()
-            graph_def.ParseFromString(f.read())
-            sess.graph.as_default()
-            tf.import_graph_def(graph_def, name='')
-    inputImg =  sess.graph.get_tensor_by_name('input_1:0')
-    predictions = sess.graph.get_tensor_by_name('predictions/Softmax:0')
-    keep_prob = tf.placeholder(tf.float32)
+#if opencvFlag=='keras':
+#    ##转换为tf模型，以便GPU调用
+#    import tensorflow as tf
+#    from tensorflow.python.platform import gfile
+#    config = tf.ConfigProto(allow_soft_placement=True)
+#    sess = tf.Session(config=config)
+#    with gfile.FastGFile(AngleModelPb, 'rb') as f:
+#            graph_def = tf.GraphDef()
+#            graph_def.ParseFromString(f.read())
+#            sess.graph.as_default()
+#            tf.import_graph_def(graph_def, name='')
+#    inputImg =  sess.graph.get_tensor_by_name('input_1:0')
+#    predictions = sess.graph.get_tensor_by_name('predictions/Softmax:0')
+#    keep_prob = tf.placeholder(tf.float32)
 
-    
-else:
-   angleNet = cv2.dnn.readNetFromTensorflow(AngleModelPb,AngleModelPbtxt)##dnn 文字方向检测
+angleNet = cv2.dnn.readNetFromTensorflow(AngleModelPb,AngleModelPbtxt)##dnn 文字方向检测
 textNet  = cv2.dnn.readNetFromDarknet(yoloCfg,yoloWeights)##文字定位
 def text_detect(img):
     thresh=0
@@ -99,7 +97,7 @@ def angle_detect(img,adjust=True):
     """
     文字方向检测
     """
-    if opencvFlag=='keras':
-        return angle_detect_tf(img,adjust=adjust)
-    else:
-        return angle_detect_dnn(img,adjust=adjust)
+    #if opencvFlag=='keras':
+    #    return angle_detect_tf(img,adjust=adjust)
+    #else:
+    return angle_detect_dnn(img,adjust=adjust)
